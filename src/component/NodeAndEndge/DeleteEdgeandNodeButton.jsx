@@ -1,8 +1,10 @@
 import React from 'react'
 import { useReactFlow } from 'react-flow-renderer';
+import { useDispatch } from 'react-redux';
+import { set_nodes } from '../../Redux/EngeNodeSlice/NodeEdgeStore';
 
-function DeleteEdgeandNodeButton({selecte,setterFunc,ids}) {
-
+function DeleteEdgeandNodeButton({selecte,setterFunc,ids, getterFunc}) {
+const dispatch = useDispatch();
 
   
 
@@ -17,6 +19,7 @@ function DeleteEdgeandNodeButton({selecte,setterFunc,ids}) {
             className="nodrag nopan"
             onClick={() => {
               setterFunc((es) => es.filter((e) => e.id!==ids));
+              dispatch(set_nodes(getterFunc()))  
               // console.log(setEdge)
             }}
           >

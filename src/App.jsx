@@ -11,6 +11,9 @@ import {
 } from "@xyflow/react";
 import "@xyflow/react/dist/style.css";
 
+import { useDispatch, useSelector } from "react-redux";
+
+
 // Import your custom node component
 import { TextUpdaterNode } from "./component/NodeAndEndge/TextUpdaterNode";
 import { Button } from "@chakra-ui/react";
@@ -18,6 +21,8 @@ import ApiListNode from "./component/NodeAndEndge/ApiListNode";
 import DeleteLabledEdge from "./component/NodeAndEndge/DeleteLabledEdge";
 import DeleteEdgeandNodeButton from "./component/NodeAndEndge/DeleteEdgeandNodeButton";
 import NodeTextArea from "./component/NodeAndEndge/Utils/NodeTextArea";
+import { set_nodes,set_edges } from "./Redux/EngeNodeSlice/NodeEdgeStore";
+
 
 let initialNodes = [
   { id: "1", position: { x: 0, y: 0 }, data: { label: "Start",nodeData : {id:"1",textArea:"text"} },textAreaVisible:false },
@@ -51,6 +56,8 @@ export default function App() {
 
   // const {getNodes,getEdges} = useReactFlow()
 
+  const dispatch = useDispatch();
+
   const nodeTypes = {
     textUpdater: TextUpdaterNode,
     apiList: ApiListNode,
@@ -70,8 +77,12 @@ export default function App() {
   let storedEdges = [];
 
   useEffect(()=>{
+    dispatch(set_edges(edges))
+    dispatch(set_nodes(nodes))
+    
     console.log("retrivinggggggggggggggggggggggggggggggg")
     try{
+
     const saveddata = localStorage.getItem("flowData");
     console.log(`Saveddata::::::::::::${saveddata}`)
     if (saveddata.length > 0) {
@@ -131,10 +142,12 @@ export default function App() {
           position: { x: 0, y: 0 },
           data: { label: ids , nodeData: {id:ids,text:""} },
           type: "textUpdater",
-          textAreaVisible:false
+          textAreaVisible:false,
+          command:""
           
         },
       ]);
+      dispatch(set_nodes({nodes}))
     },
     [setNodes, createNewNodeId] // Dependencies: setNodes and createNewNodeId
   );
@@ -148,10 +161,12 @@ export default function App() {
           id: ids,
           position: { x: 0, y: 0 },
           data: { label: ids , nodeData: {id:ids,text:""} },
-          type: "textUpdater",
-          textAreaVisible:false
+          type: "apiList",
+          textAreaVisible:false,
+          apiName:""
         },
       ]);
+      dispatch(set_nodes({nodes}))
     },
     [setNodes, createNewNodeId] // Dependencies: setNodes and createNewNodeId
   );
@@ -233,6 +248,7 @@ export default function App() {
     console.log("Testttttt");
     console.log(newEdge);
     console.log(uniqueTargetSourceEdges); // Log the updated object once at the end
+    dispatch(set_edges(edges))
   }, [edges, nodes, onNodesChange, onEdgesChange]);
 
   // console.log(edges);

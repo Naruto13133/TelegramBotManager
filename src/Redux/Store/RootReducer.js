@@ -1,11 +1,12 @@
 import { combineReducers } from 'redux';
 import  telegramReducer  from '../BotSlice/BotSlice';
 import userReducer from '../AuthSlice/AuthSlice';
+import NodeEdgeSliceReducer from '../EngeNodeSlice/NodeEdgeStore'
 
 export  const rootReducer = combineReducers({
   telegram: telegramReducer,
   user: userReducer,
- 
+  nodeEdge:NodeEdgeSliceReducer,
   // ... other reducers
 });
 

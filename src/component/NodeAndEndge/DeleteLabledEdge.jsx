@@ -4,15 +4,21 @@ import {
     getStraightPath,
     useReactFlow,
   } from '@xyflow/react';
+import { useDispatch } from 'react-redux';
+import { set_edges } from '../../Redux/EngeNodeSlice/NodeEdgeStore';
   
+
   export default function DeleteLabledEdge({ id, sourceX, sourceY, targetX, targetY,selected,nodes }) {
-    const { setEdges, getNodes } = useReactFlow();
+    const { setEdges, getNodes, getEdges } = useReactFlow();
     const [edgePath, labelX, labelY] = getStraightPath({
       sourceX,
       sourceY,
       targetX,
       targetY,
     });
+
+    const dispatch = useDispatch();
+    
 
     
     return (
@@ -28,6 +34,7 @@ import {
             className="nodrag nopan"
             onClick={() => {
               setEdges((es) => es.filter((e) => e.id!==id));
+              dispatch(set_edges(getEdges))
             }}
           >
             delete

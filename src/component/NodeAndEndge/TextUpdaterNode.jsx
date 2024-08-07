@@ -3,13 +3,17 @@ import { Handle, Position, useReactFlow } from "@xyflow/react";
 import DeleteEdgeandNodeButton from "./DeleteEdgeandNodeButton";
 import NodeTextArea from "./Utils/NodeTextArea";
 import { Button } from "@chakra-ui/react";
+import { useDispatch } from "react-redux";
+import { set_nodes } from "../../Redux/EngeNodeSlice/NodeEdgeStore";
 
 const handleStyle = {};
 
 export function TextUpdaterNode({ data,id,selected }) {
+
+
   const [textValue, setTextValue] = useState("");
   const [isTextAreaVisible, setIsTextAreaVisible] = useState(false);
-
+  const dispatch = useDispatch();
   const inputRef = useRef(null);
   const onChange = useCallback(
     (evt) => {
@@ -49,7 +53,11 @@ const setVisibleTextAreaNode = () => {
       // console.log("id the Func")
       // console.log(node)
       return node;
-    }));
+    }))
+    const nodes = getNodes();
+    console.log("gettting nodeessss  getiig  nodess")
+    console.log(nodes)
+    dispatch(set_nodes(nodes));
   }
 };
 
@@ -91,7 +99,7 @@ const setVisibleTextAreaNode = () => {
           // console.log(prev)}
           console.log("AddText Button Clicked")
         }} className="">AddText</Button>
-        <DeleteEdgeandNodeButton selecte={selected}  setterFunc={setNodes} ids={id}/>
+        <DeleteEdgeandNodeButton selecte={selected} getterFunc={setNodes} setterFunc={setNodes} ids={id}/>
         <div className="h-10px align-bottom h-[30px] w-[120px] bg-green-400 mt-5 rounded-[10px] font-bold">
           SOURCE
           <Handle

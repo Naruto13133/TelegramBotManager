@@ -9,7 +9,7 @@ function ApiListNode({data,selected,id}) {
   const [selectedAnimal, setSelectedAnimal] = useState(null);
 
 
-  const {setNodes} = useReactFlow();
+  const {setNodes,getNodes} = useReactFlow();
 
   return (
     <>
@@ -44,7 +44,7 @@ function ApiListNode({data,selected,id}) {
             </option>
           ))}
         </select>
-        <DeleteEdgeandNodeButton selecte={selected}  setterFunc={setNodes} ids={id}/>
+        <DeleteEdgeandNodeButton selecte={selected} getterFunc={getNodes} setterFunc={setNodes} ids={id}/>
         <div className="h-10px align-bottom h-[30px] w-[120px] bg-green-400 mt-[30px] rounded-[10px] font-bold">
           SOURCE
           <Handle

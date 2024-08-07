@@ -1,9 +1,9 @@
 export const API_BASE_URL = "http://localhost:8080"
 
 //Telegram Api
-export const TELEGRAM_API_VERFICATION = "http://localhost:8080/nodeedge/telegrambot"
+export const TELEGRAM_API_VERFICATION = "http://localhost:8080/telegrambot/verify"
 
 //ApiForNodeandEdgesValue 
-const NODE_EDGE_API =""
+export const NODE_EDGE_API ="http://localhost:8080/nodeendge/store"
 
 const GEMINI_API = ""

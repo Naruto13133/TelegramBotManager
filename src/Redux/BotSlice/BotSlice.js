@@ -92,6 +92,7 @@ const Api_Bot_initialState = {
   isLoading: false,
   test: "",
   error:"",
+  jwt:"",
 };
 
 // Correcting the thunk action to receive a single argument
