@@ -2,7 +2,7 @@ import { configureStore, createAsyncThunk, createSlice, legacy_createStore } fro
 import { EdgeNodeReducer } from './NodeEndgeReducer'
 import { thunk } from 'redux-thunk'
 import axios from 'axios';
-import { NODE_EDGE_API } from '../../Config/Api';
+import { STORE_NODEEDGE_DATA } from '../../Config/Api';
 
 
 const nodeEndge_initialState = {
@@ -20,7 +20,9 @@ export const send_node_edge_data = createAsyncThunk(
   async({nodes,edges},{rejectedwithvalue})=>{
     try{
       console.log("async Function is called!")
-      const {data} = await axios.post(`${NODE_EDGE_API}`,{nodes,edges})
+      console.log(nodes)
+      console.log(edges)
+      const {data} = await axios.post(`${STORE_NODEEDGE_DATA}`,{nodes,edges})
       return data;
     }
     catch(error){

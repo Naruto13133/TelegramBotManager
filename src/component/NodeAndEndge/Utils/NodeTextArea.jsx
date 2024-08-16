@@ -19,14 +19,22 @@ import { useSelector } from "react-redux";
 const NodeTextArea = ({isVisible,nodes,setNodes}) => {
   const [value, setValue] = useState("");
   const getNodddess = useSelector((state) => state.nodeEdge.nodes);
+  const outSideClick = () =>{
+    const outSideClick =document.querySelector('.react-flow__pane.draggable');
+    if(outSideClick){
+      console.log("u clicked me outer side")
+      outSideClick.click();
+    }
+  }
   useEffect(() => {
     console.log(`useeffect value called: id: ${getNodddess[1].id} and ${getNodddess[1].data.nodeData.textArea} ans is visible ${getNodddess[1].selected}`)
     // console.log(`useeffect value called: id: ${getNodddess[2].id} and ${getNodddess[2].data.nodeData.textArea} ans is visible ${getNodddess[2].selected}`)
-    const foundNode = getNodddess.find((e) => e.selected === true);
+    const foundNode = nodes.find((e) => e.selected === true);
     if (foundNode) {
-      
       setValue(foundNode.data.nodeData.textArea);
     }
+    console.log("u clicked this button when you close the component")
+    outSideClick();
   }, []); // Update only when getNodddess changes
 
   
@@ -92,7 +100,7 @@ const NodeTextArea = ({isVisible,nodes,setNodes}) => {
 
     updatedNodes.map((e) => {
       if (e.textAreaVisible === true) {
-        e.selected= false
+        // e.selected= false
         e.data = {
           ...e.data,
           nodeData: {
@@ -104,7 +112,8 @@ const NodeTextArea = ({isVisible,nodes,setNodes}) => {
         
       }
     });
-
+    console.log("updadateddddd nodddesss")
+    console.log(updatedNodes);
     dispatch(set_nodes(updatedNodes)); // Dispatch action to update Redux state
     setNodes(nodes);
     isVisible(false)

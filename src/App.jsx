@@ -22,6 +22,7 @@ import DeleteLabledEdge from "./component/NodeAndEndge/DeleteLabledEdge";
 import DeleteEdgeandNodeButton from "./component/NodeAndEndge/DeleteEdgeandNodeButton";
 import NodeTextArea from "./component/NodeAndEndge/Utils/NodeTextArea";
 import { set_nodes,set_edges } from "./Redux/EngeNodeSlice/NodeEdgeStore";
+import { send_node_edge_data } from "./Redux/EngeNodeSlice/NodeEdgeStore"; 
 
 
 let initialNodes = [
@@ -32,27 +33,26 @@ let initialNodes = [
     data: { label: "2", nodeData : {id:"1",textArea:"text"},},
     type: "textUpdater",
     textAreaVisible:false,
+    command:'',
   },
 ];
 
 let initialEdges = [
-  { id: "e1-2", source: "1", target: "2", type: "deleteEdge" },
+  { id: "e1-2", source: "1", target: "2", type: "deleteEdge",key:"" },
 ];
 
 export default function App() {
 
-
-
-
   // const [nodeId,setNodeId] = useState()
   const[textAreaVisible,setTextAreaVisible] = useState(false);
-  const [command, setCommand] = useState("");
+  const [nodeEdge, setNodeENdge] = useState("thla");
   const [api, setApi] = useState("");
   const [nodeIdCounter, setNodeIdCounter] = useState(3);
   const createNewNodeId = () => {
     setNodeIdCounter((prevCount) => prevCount + 1);
     return nodeIdCounter.toString(); // Return the string ID
   };
+
 
   // const {getNodes,getEdges} = useReactFlow()
 
@@ -77,6 +77,9 @@ export default function App() {
   let storedEdges = [];
 
   useEffect(()=>{
+    console.log("Before storing the dataBefore storing the dataBefore storing the data")
+    console.log(edges)
+    console.log(nodes)
     dispatch(set_edges(edges))
     dispatch(set_nodes(nodes))
     
@@ -130,6 +133,20 @@ export default function App() {
     (params) => {setEdges((eds) => addEdge(params, eds));console.log(params);console.log(">>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<")},
     [setEdges]
   );
+
+  const submitNoteEdge =(e)=> {
+    e.preventDefault();
+    const confirmSubmission  = confirm("Are You really want to save the form?");
+    if (nodeEdge) {
+      const flow = nodeEdge.toObject();
+      console.log(flow);
+      localStorage.setItem("test", JSON.stringify(flow));
+    }
+  
+    if(confirmSubmission){
+      dispatch(send_node_edge_data(nodes,edges))
+    }
+  }
 
   const memoizedAddCommandNode = useCallback(
    
@@ -205,14 +222,17 @@ export default function App() {
 
   const memoizedAddEdges = useCallback(() => {
     let i = 0;
-    for (const obj of edges) {
+    for (let obj of edges) {
+
       const key = `key${obj.source}${obj.target}`;
 
       // Create a new Set if the key doesn't exist
       console.log(`key:${key}`);
       if (!uniqueTargetSourceEdges.hasOwnProperty(key)) {
         i = 1;
-        obj["key"] = key;
+        console.log("test test test test test test")
+        console.log(obj)
+        obj = {...obj, key:key}
         uniqueTargetSourceEdges[key] = obj;
         // setNewEdge((prev) => [...prev, obj]);
         edgeArray.push(obj);
@@ -271,6 +291,7 @@ export default function App() {
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
           nodeTypes={nodeTypes}
+          onInit = {setNodeENdge}
         >
           <Controls className="mb-96 " />
           <MiniMap className="mb-20" />
@@ -301,12 +322,11 @@ export default function App() {
         >
           Optimise Connection
         </Button>
-        <Button className="bg-black text-white w-48 h-12 rounded-[10px]">
+        <Button className="bg-black text-white w-48 h-12 rounded-[10px]" onClick={submitNoteEdge}>
           Save It!
         </Button>
         {/* ... other buttons */}
       </div>
-        { textAreaVisible ? <NodeTextArea nodes={nodes} isVisible = {setTextAreaVisible} setNodes = {setNodes} ></NodeTextArea>:""}
         
     </div>
   );
