@@ -327,7 +327,7 @@ export default function App() {
         </Button>
         {/* ... other buttons */}
       </div>
-      { textAreaVisible ? <NodeTextArea nodes={nodes} isVisible = {setTextAreaVisible} setNodes = {setNodes} ></NodeTextArea>:""}
+        
     </div>
   );
 }
