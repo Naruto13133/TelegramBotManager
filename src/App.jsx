@@ -297,7 +297,10 @@ export default function App() {
           <MiniMap className="mb-20" />
           <Background variant="dots" gap={12} size={1} />
         </ReactFlow>
-      </div>
+        </div>
+
+        
+       {/* Right sidebar for potion  */}
       <div className="flex flex-col gap-y-1 mx-auto mt-5">
         <h1 className="mb-5">Functionalities</h1>
         <Button

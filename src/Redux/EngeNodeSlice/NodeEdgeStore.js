@@ -6,6 +6,7 @@ import { STORE_NODEEDGE_DATA } from '../../Config/Api';
 
 
 const nodeEndge_initialState = {
+  flowMaps:[],
   nodes:[],
   edges:[],
   jwt:"",
@@ -22,7 +23,23 @@ export const send_node_edge_data = createAsyncThunk(
       console.log("async Function is called!")
       console.log(nodes)
       console.log(edges)
-      const {data} = await axios.post(`${STORE_NODEEDGE_DATA}`,{nodes,edges})
+      const {data} = await axios.post(`${STORE_NODEEDGE_DATA}+store`,{flowMaps})
+      return data;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
+)
+
+export const get_flow_data = createAsyncThunk(
+  "sendding nodes and edges data",
+  async({userName},{rejectedwithvalue})=>{
+    try{
+      console.log("async Function is called!")
+      console.log(nodes)
+      console.log(edges)
+      const {data} = await axios.post(`${STORE_NODEEDGE_DATA}+getflow`,userName)
       return data;
     }
     catch(error){
