@@ -2,7 +2,7 @@ import React from 'react'
 import App from '../../App'
 import { useSelector } from 'react-redux'
 import ApiKeyGetter from '../ApiKeyGetterComponent/ApiKeyGetter'
-import LeftBarForMaps from '../LeftBar/LeftBarForMaps'
+// import LeftBarForMaps from '../LeftBar/LeftBarForMaps'
 
 
 
@@ -20,7 +20,7 @@ let a = false;
   return (
     <div className='mt-10'>
       {/* <h1 className='text-3xl font-bold'>Home</h1> */}
-      <LeftBarForMaps/>
+     
       {  true? <App/> : <ApiKeyGetter/> }
     </div>
   )

@@ -18,7 +18,7 @@ const nodeEndge_initialState = {
 
 export const send_node_edge_data = createAsyncThunk(
   "sendding nodes and edges data",
-  async({nodes,edges},{rejectedwithvalue})=>{
+  async({flowMaps},{rejectedwithvalue})=>{
     try{
       console.log("async Function is called!")
       console.log(nodes)
@@ -33,7 +33,7 @@ export const send_node_edge_data = createAsyncThunk(
 )
 
 export const get_flow_data = createAsyncThunk(
-  "sendding nodes and edges data",
+  "get List of use created folw for different bots",
   async({userName},{rejectedwithvalue})=>{
     try{
       console.log("async Function is called!")
@@ -52,6 +52,11 @@ const NodeEdgeSlice = createSlice({
   name:"nodeEndge",
   initialState: nodeEndge_initialState,
   reducers:{
+    setFlowMaps(state,action){
+      console.log("saving into state")
+      console.log(action.payload)
+      state.flowMaps = action.payload;
+    },
     set_nodes: (state,action) =>{
       console.log("u called set_nodes")
       console.log(action.payload)
@@ -87,5 +92,5 @@ const NodeEdgeSlice = createSlice({
 })
 
 
-export const { logout, set_nodes, set_edges } = NodeEdgeSlice.actions;
+export const { logout, set_nodes, set_edges,setFlowMaps } = NodeEdgeSlice.actions;
 export default NodeEdgeSlice.reducer;
