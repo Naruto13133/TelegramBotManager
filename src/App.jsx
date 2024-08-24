@@ -22,6 +22,7 @@ import DeleteEdgeandNodeButton from "./component/NodeAndEndge/DeleteEdgeandNodeB
 import NodeTextArea from "./component/NodeAndEndge/Utils/NodeTextArea";
 import { set_nodes, set_edges, setFlowMaps } from "./Redux/EngeNodeSlice/NodeEdgeStore";
 import { send_node_edge_data } from "./Redux/EngeNodeSlice/NodeEdgeStore";
+import { useCreateNewReactFlow } from "./component/Utils/ReactFlowClass";
 
 let initialNodes = [
   {
@@ -50,6 +51,8 @@ export default function App() {
   const [api, setApi] = useState("");
   const [nodeIdCounter, setNodeIdCounter] = useState(3);
   
+const createReactFlow = useCreateNewReactFlow();
+  
   const dispatch = useDispatch();
 
   let fileName ="" ;
@@ -62,20 +65,6 @@ export default function App() {
     setNodeIdCounter((prevCount) => prevCount + 1);
     return nodeIdCounter.toString(); // Return the string ID
   };
-
-  const onSave = useCallback(
-   ()=>{
-    const flow = nodeEdge.toObject();
-    const flowMap = useSelector(state => state.nodeEdge.flowMaps)
-    flowMap.map(e => { if (e.hasOwnProperty(fileName)){
-      e[fileName] = flow;
-    }})
-    dispatch(setFlowMaps(flowMap))
-   }
-    ,
-  [])
-
-
 
   const nodeTypes = {
     textUpdater: TextUpdaterNode,
@@ -145,13 +134,9 @@ export default function App() {
   const submitNoteEdge = (e) => {
     e.preventDefault();
     const confirmSubmission = confirm("Are You really want to save the form?");
-    if (nodeEdge) {
-      const flow = nodeEdge.toObject();
-      console.log(flow);
-      localStorage.setItem("test", JSON.stringify(flow));
-    }
-
-    if (confirmSubmission) {
+    const getFileNameFromUser = prompt("Please enter the file name:")
+    createReactFlow(getFileNameFromUser, nodeEdge);
+   if (confirmSubmission) {
       dispatch(send_node_edge_data(nodes, edges));
     }
   };

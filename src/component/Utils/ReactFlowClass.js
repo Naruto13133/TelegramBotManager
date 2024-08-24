@@ -3,13 +3,20 @@ import { setFlowMaps } from "../../Redux/EngeNodeSlice/NodeEdgeStore";
 
 export const useCreateNewReactFlow = () => {
     const dispatch = useDispatch();
-    const getFlowMapsFormStore = useSelector(state => state.nodeEdge.flowMaps);
+    const getFlowMapsFromStore = useSelector(state => state.nodeEdge.flowMaps);
 
-    const createNewFlow = () => {
-        const fileName = prompt('Please enter the file name:');
+    const createNewFlow = (fileName = null, flow = null) => {
+        if (fileName == null) {
+            fileName = prompt('Please enter the file name: ');
+        }
 
-        if (fileName && !getFlowMapsFormStore.some(e => e.hasOwnProperty(fileName))) {
-            const NewNodeRefrence = {
+        if (!fileName) {
+            alert("File name is required!");
+            return;
+        }
+
+        if (!flow) {
+            flow = {
                 "nodes": [
                     {
                         "id": "1",
@@ -39,15 +46,16 @@ export const useCreateNewReactFlow = () => {
                 ],
                 "viewport": { "x": 0, "y": 0, "zoom": 1 }
             };
-
-            const flowData = {
-                [fileName]: NewNodeRefrence,
-            };
-            const updatedFlowMaps = [...getFlowMapsFormStore, flowData];
-            dispatch(setFlowMaps(updatedFlowMaps));
-        } else {
-            alert("Use a different file name");
         }
+
+        if (getFlowMapsFromStore.some(e => e.hasOwnProperty(fileName))) {
+            alert(`${fileName} File name already exists, use a different one!`);
+            return;
+        }
+
+        const flowData = { [fileName]: flow };
+        const updatedFlowMaps = [...getFlowMapsFromStore, flowData];
+        dispatch(setFlowMaps(updatedFlowMaps));
     };
 
     return createNewFlow;

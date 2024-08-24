@@ -1,44 +1,23 @@
-import React from "react";
-import * as FaIcons from "react-icons/fa";
-import * as AiIcons from "react-icons/ai";
-import * as IoIcons from "react-icons/io";
+import { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 
+export const useGetListOfFlowMaps = () => {
+  const getFlowMapsFromStore = useSelector((state) => state.nodeEdge.flowMaps);
+  const [flowMap, setFlowMap] = useState([]);
 
-export const SidebarData = [
-    {
-      title: "Home",
-      path: "/",
-    //   icon: <AiIcons.AiFillHome />,sd
-      cName: "nav-text",
-    },
-    {
-      title: "Reports",
-      path: "/reports",
-    //   icon: <IoIcons.IoIosPaper />,
-      cName: "nav-text",
-    },
-    {
-      title: "Products",
-      path: "/products",
-    //   icon: <FaIcons.FaCartPlus />,
-      cName: "nav-text",
-    },
-    {
-      title: "Team",
-      path: "/team",
-    //   icon: <IoIcons.IoMdPeople />,
-      cName: "nav-text",
-    },
-    {
-      title: "Messages",
-      path: "/messages",
-    //   icon: <FaIcons.FaEnvelopeOpenText />,
-      cName: "nav-text",
-    },
-    {
-      title: "Support",
-      path: "/support",
-    //   icon: <IoIcons.IoMdHelpCircle />,
-      cName: "nav-text",
-    },
-  ];
+  useEffect(() => {
+    // Transform the flow maps into the desired format for the sidebar
+    if (getFlowMapsFromStore) {
+      const formattedFlowMaps = getFlowMapsFromStore.map((e) => ({
+        title: Object.keys(e)[0], 
+        cName: "nav-text",
+        value: Object.values(e)[0], 
+      }));
+
+      setFlowMap(formattedFlowMaps);
+    }
+  }, [getFlowMapsFromStore]);
+console.log("flowMaps from hook:")
+console.log(flowMap)
+  return flowMap;
+};

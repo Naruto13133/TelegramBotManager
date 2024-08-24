@@ -2,14 +2,16 @@ import React, { useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { SidebarData } from "./SideBarData";
+// import { SidebarData } from "./SideBarData";
 import "../../App.css";
 import { IconContext } from "react-icons";
+import { useGetListOfFlowMaps } from "./SideBarData";
 
 function LeftBarForMaps() {
   const [sidebar, setSidebar] = useState(false);
 
   const showSidebar = () => setSidebar(!sidebar);
+  const SidebarData = useGetListOfFlowMaps();
 
   return (
     <>
