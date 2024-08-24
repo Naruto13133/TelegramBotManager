@@ -52,10 +52,10 @@ export default function App() {
   
   const dispatch = useDispatch();
 
-  let botname ="" ;
+  let fileName ="" ;
   const services = useSelector(state => state.telegram.services);
   services.map(e => {if(e.userName == "testUserName"){
-    botname = e.userName;
+    fileName = e.userName;
   }})
 
   const createNewNodeId = () => {
@@ -67,8 +67,8 @@ export default function App() {
    ()=>{
     const flow = nodeEdge.toObject();
     const flowMap = useSelector(state => state.nodeEdge.flowMaps)
-    flowMap.map(e => { if (e.hasOwnProperty(botname)){
-      e[botname] = flow;
+    flowMap.map(e => { if (e.hasOwnProperty(fileName)){
+      e[fileName] = flow;
     }})
     dispatch(setFlowMaps(flowMap))
    }
