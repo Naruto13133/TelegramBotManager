@@ -39,7 +39,7 @@ export const get_flow_data = createAsyncThunk(
       console.log("async Function is called!")
       console.log(nodes)
       console.log(edges)
-      const {data} = await axios.post(`${STORE_NODEEDGE_DATA}+getflow`,userName)
+      const {data} = await axios.post(`${STORE_NODEEDGE_DATA}getflow`,userName)
       return data;
     }
     catch(error){
@@ -87,6 +87,18 @@ const NodeEdgeSlice = createSlice({
       state.isLoading = false;
       state.error = action.data;
       state.status = "fail to send the data."
+    }).addCase(get_flow_data.pending,(state)=>{
+      state.isLoading = true;
+      state.error = "";
+      state.status = "fail to get the data.";
+    }).addCase(get_flow_data.fulfilled, (state,action)=>{
+        state.isLoading = false;
+        state.status = "success";
+        state.flowMaps = payload.data;
+    }).addCase(get_flow_data.rejected, (state,action)=>{
+          state.isLoading = false;
+          state.error = payload.error;
+          state.status = "failed";
     })
   }
 })

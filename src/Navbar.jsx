@@ -9,6 +9,9 @@ const NavBar = () => {
         <li>
         <LeftBarForMaps/> 
         </li>
+        <li className="text-gray-700 hover:text-blue-500 font-bold">
+          New Flow
+        </li>
         <li>
           <Link to="/" className="text-gray-700 hover:text-blue-500 font-bold">
             Home
