@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as FaIcons from "react-icons/fa";
 import * as AiIcons from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -6,12 +6,26 @@ import { Link } from "react-router-dom";
 import "../../App.css";
 import { IconContext } from "react-icons";
 import { useGetListOfFlowMaps } from "./SideBarData";
+import { useShowSelectedFlow } from "../Utils/RestoreTheView";
+import { useDispatch, useSelector } from "react-redux";
+import { useReactFlow } from "react-flow-renderer";
+import { set_edges, set_nodes } from "../../Redux/EngeNodeSlice/NodeEdgeStore";
 
 function LeftBarForMaps() {
   const [sidebar, setSidebar] = useState(false);
-
+  const dispatch = useDispatch();
+ 
   const showSidebar = () => setSidebar(!sidebar);
   const SidebarData = useGetListOfFlowMaps();
+  const hookForShowFlowMap  = useShowSelectedFlow();
+
+  const showClickedFlow =(item)=>{
+  console.log("showCLickeFlow is Called")
+    // const  className =  e.target.className;
+    // console.log(className);
+    console.log(">>>>>>>>>>>>>>className<<<<<<<<<<<<<<");
+  hookForShowFlowMap(item);
+  }
 
   return (
     <>
@@ -30,7 +44,7 @@ function LeftBarForMaps() {
             </li>
             {SidebarData.map((item, index) => {
               return (
-                <li key={index} className={item.cName}>
+                <li key={index} className={item.cName} onClick = {()=>{showClickedFlow(item.title)}}>
                   <Link to={item.path}>
                     {item.icon}
                     <span>{item.title}</span>
@@ -45,4 +59,5 @@ function LeftBarForMaps() {
   );
 }
 
-export default LeftBarForMaps;
+export default LeftBarForMaps ;
+// export default {ReRendorTheVIew};

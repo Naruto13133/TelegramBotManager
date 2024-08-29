@@ -5,15 +5,15 @@ export const useCreateNewReactFlow = () => {
     const dispatch = useDispatch();
     const getFlowMapsFromStore = useSelector(state => state.nodeEdge.flowMaps);
 
-    const createNewFlow = (fileName = null, flow = null) => {
-        if (fileName == null) {
+    const createNewFlow = (fileName = null, flow = null, isVisible = false) => {
+        console.log(">>>>>>>>>>>>>>>>>>>>M<<<<<<<<<<<<<<<<<<<")
+        
+        if (fileName == null || typeof fileName != "string") {
             fileName = prompt('Please enter the file name: ');
+            console.log("case1 is called")
+            // isVisible = false;
         }
-
-        if (!fileName) {
-            alert("File name is required!");
-            return;
-        }
+        console.log("case2 is called")
 
         if (!flow) {
             flow = {
@@ -52,10 +52,15 @@ export const useCreateNewReactFlow = () => {
             alert(`${fileName} File name already exists, use a different one!`);
             return;
         }
+       
 
-        const flowData = { [fileName]: flow };
+        const flowData = { [fileName]: flow, "show":isVisible };
         const updatedFlowMaps = [...getFlowMapsFromStore, flowData];
-        dispatch(setFlowMaps(updatedFlowMaps));
+        console.log(">>>>>calling befor saving new glow into state")
+        if(fileName != null && typeof fileName == "string" )
+        {dispatch(setFlowMaps(updatedFlowMaps));}
+        else
+        {alert("please enter valid name!")}
     };
 
     return createNewFlow;

@@ -20,9 +20,10 @@ import ApiListNode from "./component/NodeAndEndge/ApiListNode";
 import DeleteLabledEdge from "./component/NodeAndEndge/DeleteLabledEdge";
 import DeleteEdgeandNodeButton from "./component/NodeAndEndge/DeleteEdgeandNodeButton";
 import NodeTextArea from "./component/NodeAndEndge/Utils/NodeTextArea";
-import { set_nodes, set_edges, setFlowMaps } from "./Redux/EngeNodeSlice/NodeEdgeStore";
+import { set_nodes, set_edges, setFlowMaps, set_Viewport } from "./Redux/EngeNodeSlice/NodeEdgeStore";
 import { send_node_edge_data } from "./Redux/EngeNodeSlice/NodeEdgeStore";
 import { useCreateNewReactFlow } from "./component/Utils/ReactFlowClass";
+import { useReRenderTheView } from "./component/Utils/ViewselectedFlow";
 
 let initialNodes = [
   {
@@ -50,6 +51,7 @@ export default function App() {
   const [nodeEdge, setNodeENdge] = useState(null);
   const [api, setApi] = useState("");
   const [nodeIdCounter, setNodeIdCounter] = useState(3);
+
   
 const createReactFlow = useCreateNewReactFlow();
   
@@ -108,6 +110,24 @@ const createReactFlow = useCreateNewReactFlow();
 
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
+  // const {setViewport} = useReactFlow()
+  // const {setNodes,setEdges,setViewport} = useReactFlow();
+  // useReRenderTheView()
+ const nodesForMapchages = useSelector(state => state.nodeEdge.flowMaps)
+ useEffect(() => {
+  nodesForMapchages.map(e =>{
+    if(Object.values(e)[1]){
+      // Perform side effects here, e.g., updating nodes, edges, or viewport
+    setNodes(Object.values(e)[0].nodes);
+    setEdges(Object.values(e)[0].edges);
+    // setViewport({x:0,y:0,zoom:1});
+    }else{
+      setNodes(initialNodes);
+      setEdges(initialEdges);
+      // setViewport({x:0,y:0,zoom:1});
+    }
+  })
+}, [nodesForMapchages]); // D
 
   useEffect(() => {
     return () => {
@@ -132,10 +152,16 @@ const createReactFlow = useCreateNewReactFlow();
   );
 
   const submitNoteEdge = (e) => {
+    let isVisible = true;
     e.preventDefault();
     const confirmSubmission = confirm("Are You really want to save the form?");
+    
     const getFileNameFromUser = prompt("Please enter the file name:")
-    createReactFlow(getFileNameFromUser, nodeEdge);
+    if(getFileNameFromUser === "[object Object]"){
+      const getFileNameFromUser = prompt("Please enter the file name:")
+    }
+      createReactFlow(getFileNameFromUser, nodeEdge, isVisible);
+    
    if (confirmSubmission) {
       dispatch(send_node_edge_data(nodes, edges));
     }

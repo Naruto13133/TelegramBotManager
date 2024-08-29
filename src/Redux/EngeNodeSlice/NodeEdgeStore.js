@@ -9,6 +9,7 @@ const nodeEndge_initialState = {
   flowMaps:[],
   nodes:[],
   edges:[],
+  viewport:{},
   jwt:"",
   error:"",
   isLoading:false,
@@ -62,6 +63,11 @@ const NodeEdgeSlice = createSlice({
       console.log(action.payload)
       state.nodes = action.payload;
     },
+    set_Viewport: (state,action) =>{
+      console.log("u called set_nodes")
+      console.log(action.payload)
+      state.nodes = action.payload;
+    },
     set_edges:(state,action) => {
       console.log("u called set_edges")
       console.log(action.payload)
@@ -104,5 +110,5 @@ const NodeEdgeSlice = createSlice({
 })
 
 
-export const { logout, set_nodes, set_edges,setFlowMaps } = NodeEdgeSlice.actions;
+export const { logout, set_nodes, set_edges,set_Viewport,setFlowMaps } = NodeEdgeSlice.actions;
 export default NodeEdgeSlice.reducer;
