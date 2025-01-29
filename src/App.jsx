@@ -47,6 +47,8 @@ let initialEdges = [
 ];
 
 export default function App() {
+
+   const createNewReactFlow = useCreateNewReactFlow();
   const [textAreaVisible, setTextAreaVisible] = useState(false);
   const [nodeEdge, setNodeENdge] = useState(null);
   const [api, setApi] = useState("");
@@ -301,7 +303,7 @@ const createReactFlow = useCreateNewReactFlow();
         </Button>
         <Button
           className="bg-black text-white w-48 h-12 rounded-[10px]"
-          onClick={submitNoteEdge}
+          onClick={createNewReactFlow}
         >
           Save It!
         </Button>
